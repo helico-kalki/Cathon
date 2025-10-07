@@ -72,6 +72,8 @@ vp3 = 0
 global vp4
 vp4 = 0
 
+global can_dice
+can_dice = True
 
 slotlist=[]
 
@@ -125,6 +127,7 @@ def create_vert_street(x, y):
     street.setIconSize(QSize(60, 60))
     street.setCheckable(True)
     street.setGeometry(x, y, 60, 60)
+    street.setCursor(Qt.CursorShape.PointingHandCursor)
     street.setStyleSheet("""
         QPushButton {
             background: transparent;
@@ -148,6 +151,7 @@ def create_60_street(x, y):
     street.setIconSize(QSize(60, 60))
     street.setCheckable(True)
     street.setGeometry(x, y, 60, 60)
+    street.setCursor(Qt.CursorShape.PointingHandCursor)
     street.setStyleSheet("""
         QPushButton {
             background: transparent;
@@ -171,6 +175,7 @@ def create_120_street(x, y):
     street.setIconSize(QSize(60, 60))
     street.setCheckable(True)
     street.setGeometry(x, y, 60, 60)
+    street.setCursor(Qt.CursorShape.PointingHandCursor)
     street.setStyleSheet("""
         QPushButton {
             background: transparent;
@@ -196,6 +201,7 @@ def create_slot(x, y):
     slot.setIconSize(QSize(60, 60))
     slot.setGeometry(x, y, 60, 60)
     slot.setCheckable(True)
+    slot.setCursor(Qt.CursorShape.PointingHandCursor)
     slot.setStyleSheet("""
         QPushButton {
             background: transparent;
@@ -277,7 +283,7 @@ def on_street_deselection():
 
 # Important functions
 def set_current_player(player):
-    global current_player
+    global current_player, can_dice
     current_player = player
 
     if current_player == 1:
@@ -285,21 +291,29 @@ def set_current_player(player):
         splay2.setChecked(False)
         splay3.setChecked(False)
         splay4.setChecked(False)
+        can_dice = True
+        update_dice()
     elif current_player == 2:
         splay1.setChecked(False)
         splay2.setChecked(True)
         splay3.setChecked(False)
         splay4.setChecked(False)
+        can_dice = True
+        update_dice()
     elif current_player == 3:
         splay1.setChecked(False)
         splay2.setChecked(False)
         splay3.setChecked(True)
         splay4.setChecked(False)
+        can_dice = True
+        update_dice()
     elif current_player == 4:
         splay1.setChecked(False)
         splay2.setChecked(False)
         splay3.setChecked(False)
         splay4.setChecked(True)
+        can_dice = True
+        update_dice()
 
     update_balance()
     update_buylay()
@@ -327,20 +341,20 @@ def on_buy(slot: QPushButton, type):
                 if street_rotation == "vert":
                     slot.setIcon(QIcon("textures/street_red.png"))
                     slot.setProperty("type", "street_red")
-                    balance_brick1 = balance_brick1 - 1
-                    balance_wood1 = balance_wood1 - 1
+                    balance_brick1 -= 1
+                    balance_wood1 -= 1
                     update_balance()
                 elif street_rotation == "60":
                     slot.setIcon(QIcon("textures/street_red_60.png"))
                     slot.setProperty("type", "street_red_60")
-                    balance_brick1 = balance_brick1 - 1
-                    balance_wood1 = balance_wood1 - 1
+                    balance_brick1 -= 1
+                    balance_wood1 -= 1
                     update_balance()
                 elif street_rotation == "120":
                     slot.setIcon(QIcon("textures/street_red_120.png"))
                     slot.setProperty("type", "street_red_120")
-                    balance_brick1 = balance_brick1 - 1
-                    balance_wood1 = balance_wood1 - 1
+                    balance_brick1 -= 1
+                    balance_wood1 -= 1
                     update_balance()
             if balance_brick1 >= 1 and balance_fabric1 >= 1 and balance_wheat1 >= 1 and balance_wood1 >= 1:
                 if blocked == False:
@@ -348,10 +362,10 @@ def on_buy(slot: QPushButton, type):
                         slot.setIcon(QIcon("textures/village_red.png"))
                         slot.setIconSize(QSize(60, 60))
                         slot.setProperty("type", "village_red")
-                        balance_brick1 = balance_brick1 - 1
-                        balance_fabric1 = balance_fabric1 - 1
-                        balance_wheat1 = balance_wheat1 - 1
-                        balance_wood1 = balance_wood1 - 1
+                        balance_brick1 -= 1
+                        balance_fabric1 -= 1
+                        balance_wheat1 -= 1
+                        balance_wood1 -= 1
                         update_balance()
                         block_adj_slots(slot)
                         vp1 = vp1 + 1
@@ -362,8 +376,8 @@ def on_buy(slot: QPushButton, type):
                         slot.setIcon(QIcon("textures/city_red.png"))
                         slot.setIconSize(QSize(60, 60))
                         slot.setProperty("type", "city_red")
-                        balance_ore1 = balance_ore1 - 3
-                        balance_wheat1 = balance_wheat1 - 2
+                        balance_ore1 -= 3
+                        balance_wheat1 -= 2
                         update_balance()
                         block_adj_slots(slot)
                         vp1 = vp1 + 2
@@ -376,20 +390,20 @@ def on_buy(slot: QPushButton, type):
                 if street_rotation == "vert":
                     slot.setIcon(QIcon("textures/street_blue.png"))
                     slot.setProperty("type", "street_blue")
-                    balance_brick2 = balance_brick2 - 1
-                    balance_wood2 = balance_wood2 - 1
+                    balance_brick2 -= 1
+                    balance_wood2 -= 1
                     update_balance()
                 elif street_rotation == "60":
                     slot.setIcon(QIcon("textures/street_blue_60.png"))
                     slot.setProperty("type", "street_blue_60")
-                    balance_brick2 = balance_brick2 - 1
-                    balance_wood2 = balance_wood2 - 1
+                    balance_brick2 -= 1
+                    balance_wood2 -= 1
                     update_balance()
                 elif street_rotation == "120":
                     slot.setIcon(QIcon("textures/street_blue_120.png"))
                     slot.setProperty("type", "street_blue_120")
-                    balance_brick2 = balance_brick2 - 1
-                    balance_wood2 = balance_wood2 - 1
+                    balance_brick2 -= 1
+                    balance_wood2 -= 1
                     update_balance()
             if balance_brick2 >= 1 and balance_fabric2 >= 1 and balance_wheat2 >= 1 and balance_wood2 >= 1:
                 if blocked == False:
@@ -397,10 +411,10 @@ def on_buy(slot: QPushButton, type):
                         slot.setIcon(QIcon("textures/village_blue.png"))
                         slot.setIconSize(QSize(60, 60))
                         slot.setProperty("type", "village_blue")
-                        balance_brick2 = balance_brick2 - 1
-                        balance_fabric2 = balance_fabric2 - 1
-                        balance_wheat2 = balance_wheat2 - 1
-                        balance_wood2 = balance_wood2 - 1
+                        balance_brick2 -= 1
+                        balance_fabric2 -= 1
+                        balance_wheat2 -= 1
+                        balance_wood2 -= 1
                         update_balance()
                         block_adj_slots(slot)
                         vp2 = vp2 + 1
@@ -411,8 +425,8 @@ def on_buy(slot: QPushButton, type):
                         slot.setIcon(QIcon("textures/city_blue.png"))
                         slot.setIconSize(QSize(60, 60))
                         slot.setProperty("type", "city_blue")
-                        balance_ore2 = balance_ore2 - 3
-                        balance_wheat2 = balance_wheat2 - 2
+                        balance_ore2 -= 3
+                        balance_wheat2 -= 2
                         update_balance()
                         block_adj_slots(slot)
                         vp2 = vp2 + 2
@@ -425,20 +439,20 @@ def on_buy(slot: QPushButton, type):
                 if street_rotation == "vert":
                     slot.setIcon(QIcon("textures/street_green.png"))
                     slot.setProperty("type", "street_green")
-                    balance_brick3 = balance_brick3 - 1
-                    balance_wood3 = balance_wood3 - 1
+                    balance_brick3 -= 1
+                    balance_wood3 -= 1
                     update_balance()
                 elif street_rotation == "60":
                     slot.setIcon(QIcon("textures/street_green_60.png"))
                     slot.setProperty("type", "street_green_60")
-                    balance_brick3 = balance_brick3 - 1
-                    balance_wood3 = balance_wood3 - 1
+                    balance_brick3 -= 1
+                    balance_wood3 -= 1
                     update_balance()
                 elif street_rotation == "120":
                     slot.setIcon(QIcon("textures/street_green_120.png"))
                     slot.setProperty("type", "street_green_120")
-                    balance_brick3 = balance_brick3 - 1
-                    balance_wood3 = balance_wood3 - 1
+                    balance_brick3 -= 1
+                    balance_wood3 -= 1
                     update_balance()
             if balance_brick3 >= 1 and balance_fabric3 >= 1 and balance_wheat3 >= 1 and balance_wood3 >= 1:
                 if blocked == False:
@@ -446,10 +460,10 @@ def on_buy(slot: QPushButton, type):
                         slot.setIcon(QIcon("textures/village_green.png"))
                         slot.setIconSize(QSize(60, 60))
                         slot.setProperty("type", "village_green")
-                        balance_brick3 = balance_brick3 - 1
-                        balance_fabric3 = balance_fabric3 - 1
-                        balance_wheat3 = balance_wheat3 - 1
-                        balance_wood3 = balance_wood3 - 1
+                        balance_brick3 -= 1
+                        balance_fabric3 -= 1
+                        balance_wheat3 -= 1
+                        balance_wood3 -= 1
                         update_balance()
                         block_adj_slots(slot)
                         vp3 = vp3 + 1
@@ -460,8 +474,8 @@ def on_buy(slot: QPushButton, type):
                         slot.setIcon(QIcon("textures/city_green.png"))
                         slot.setIconSize(QSize(60, 60))
                         slot.setProperty("type", "city_green")
-                        balance_ore3 = balance_ore3 - 3
-                        balance_wheat3 = balance_wheat3 - 2
+                        balance_ore3 -= 3
+                        balance_wheat3 -= 2
                         update_balance()
                         block_adj_slots(slot)
                         vp3 = vp3 + 2
@@ -474,20 +488,20 @@ def on_buy(slot: QPushButton, type):
                 if street_rotation == "vert":
                     slot.setIcon(QIcon("textures/street_yellow.png"))
                     slot.setProperty("type", "street_yellow")
-                    balance_brick4 = balance_brick4 - 1
-                    balance_wood4 = balance_wood4 - 1
+                    balance_brick4 -= 1
+                    balance_wood4 -= 1
                     update_balance()
                 elif street_rotation == "60":
                     slot.setIcon(QIcon("textures/street_yellow_60.png"))
                     slot.setProperty("type", "street_yellow_60")
-                    balance_brick4 = balance_brick4 - 1
-                    balance_wood4 = balance_wood4 - 1
+                    balance_brick4 -= 1
+                    balance_wood4 -= 1
                     update_balance()
                 elif street_rotation == "120":
                     slot.setIcon(QIcon("textures/street_yellow_120.png"))
                     slot.setProperty("type", "street_yellow_120")
-                    balance_brick4 = balance_brick4 - 1
-                    balance_wood4 = balance_wood4 - 1
+                    balance_brick4 -= 1
+                    balance_wood4 -= 1
                     update_balance()
             if balance_brick4 >= 1 and balance_fabric4 >= 1 and balance_wheat4 >= 1 and balance_wood4 >= 1:
                 if blocked == False:
@@ -495,10 +509,10 @@ def on_buy(slot: QPushButton, type):
                         slot.setIcon(QIcon("textures/village_yellow.png"))
                         slot.setIconSize(QSize(60, 60))
                         slot.setProperty("type", "village_yellow")
-                        balance_brick4 = balance_brick4 - 1
-                        balance_fabric4 = balance_fabric4 - 1
-                        balance_wheat4 = balance_wheat4 - 1
-                        balance_wood4 = balance_wood4 - 1
+                        balance_brick4 -= 1
+                        balance_fabric4 -= 1
+                        balance_wheat4 -= 1
+                        balance_wood4 -= 1
                         update_balance()
                         block_adj_slots(slot)
                         vp4 = vp4 + 1
@@ -509,14 +523,56 @@ def on_buy(slot: QPushButton, type):
                         slot.setIcon(QIcon("textures/city_yellow.png"))
                         slot.setIconSize(QSize(60, 60))
                         slot.setProperty("type", "city_yellow")
-                        balance_ore4 = balance_ore4 - 3
-                        balance_wheat4 = balance_wheat4 - 2
+                        balance_ore4 -= 3
+                        balance_wheat4 -= 2
                         update_balance()
                         block_adj_slots(slot)
                         vp4 = vp4 + 2
                         update_vp_bar()
             update_slot_type(slot)
 
+def on_buy_card():
+    global current_player
+    global balance_fabric1, balance_ore1, balance_wheat1
+    global balance_fabric2, balance_ore2, balance_wheat2
+    global balance_fabric3, balance_ore3, balance_wheat3
+    global balance_fabric4, balance_ore4, balance_wheat4
+    if current_player == 1:
+        if balance_fabric1 >= 1 and balance_ore1 >= 1 and balance_wheat1 >= 1:
+            sbalscl1.addItem(random_card())
+            balance_fabric1 -= 1
+            balance_ore1 -= 1
+            balance_wheat1 -= 1
+            update_balance()
+            update_card_list()
+    elif current_player == 2:
+        if balance_fabric2 >= 1 and balance_ore2 >= 1 and balance_wheat2 >= 1:
+            sbalscl2.addItem(random_card())
+            balance_fabric2 -= 1
+            balance_ore2 -= 1
+            balance_wheat2 -= 1
+            update_balance()
+            update_card_list()
+    elif current_player == 3:
+        if balance_fabric3 >= 1 and balance_ore3 >= 1 and balance_wheat3 >= 1:
+            sbalscl3.addItem(random_card())
+            balance_fabric3 -= 1
+            balance_ore3 -= 1
+            balance_wheat3 -= 1
+            update_balance()
+            update_card_list()
+    elif current_player == 4:
+        if balance_fabric4 >= 1 and balance_ore4 >= 1 and balance_wheat4 >= 1:
+            sbalscl1.addItem(random_card())
+            balance_fabric4 -= 1
+            balance_ore4 -= 1
+            balance_wheat4 -= 1
+            update_balance()
+            update_card_list()
+
+def random_card():
+    cards = ["+1 Victory Point", "+1 Victory Point", "Knight", "Knight", "Steal 1 Material", "Build 2 Roads", "Pick 2 Materials"] # vp and knight have higher weight
+    return cards[random.randint(0,6)]
 
 def on_card_click(item: QListWidgetItem):
     global current_player, vp1, vp2, vp3, vp4
@@ -560,12 +616,16 @@ def translate_n2dice(n):
         return "⚅"
     
 def use_dice():
-    n1 = random.randint(1, 6)
-    n2 = random.randint(1, 6)
-    r = n1 + n2
-    sdice1.setText(translate_n2dice(n1))
-    sdice2.setText(translate_n2dice(n2))
-    sdicer.setText(str(r))
+    global can_dice
+    if can_dice == True:
+        n1 = random.randint(1, 6)
+        n2 = random.randint(1, 6)
+        r = n1 + n2
+        sdice1.setText(translate_n2dice(n1))
+        sdice2.setText(translate_n2dice(n2))
+        sdicer.setText(str(r))
+        can_dice = False
+        update_dice()
 
 def pass_on_turn():
     global current_player
@@ -713,6 +773,12 @@ def update_card_list():
         sbalscl3.hide()
         sbalscl4.show()
 
+def update_dice():
+    global can_dice
+    if can_dice == True:
+        sdices.setStyleSheet("font-size: 60px; color: white; font-family: 'Inter'; background-color: #5DB55A; border-radius: 15px;")
+    elif can_dice == False:
+        sdices.setStyleSheet("font-size: 60px; color: white; font-family: 'Inter'; background-color: #D9294E; border-radius: 15px;")
 # BOARD
 b = QWidget()
 b.setFixedSize(1080, 1000)
@@ -1080,6 +1146,7 @@ sselbuyv.setStyleSheet("""
     """)
 sselbuyvlay = QHBoxLayout()
 sselbuyvbtn = QPushButton(sselbuyv)
+sselbuyvbtn.setCursor(Qt.CursorShape.PointingHandCursor)
 sselbuyvbtn.setIcon(QIcon("textures/village_red.png"))
 sselbuyvbtn.setIconSize(QSize(75,75))
 sselbuyvbtn.clicked.connect(lambda: on_buy(selected_slot, "v"))
@@ -1111,6 +1178,7 @@ sselbuyc.setFixedHeight(120)
 sselbuyc.setStyleSheet(sselbuyv.styleSheet())
 sselbuyclay = QHBoxLayout()
 sselbuycbtn = QPushButton(sselbuyc)
+sselbuycbtn.setCursor(Qt.CursorShape.PointingHandCursor)
 sselbuycbtn.setIcon(QIcon("textures/city_red.png"))
 sselbuycbtn.setIconSize(QSize(75,75))
 sselbuycbtn.clicked.connect(lambda: on_buy(selected_slot, "c"))
@@ -1132,6 +1200,7 @@ sselbuys.setFixedHeight(120)
 sselbuys.setStyleSheet(sselbuyv.styleSheet())
 sselbuyslay = QHBoxLayout()
 sselbuysbtn = QPushButton(sselbuys)
+sselbuysbtn.setCursor(Qt.CursorShape.PointingHandCursor)
 sselbuysbtn.setIcon(QIcon("textures/street_red.png"))
 sselbuysbtn.setIconSize(QSize(75,75))
 sselbuysbtn.clicked.connect(lambda: on_buy(selected_street, "s"))
@@ -1198,8 +1267,10 @@ sbalsc = QWidget()
 sbalsc.setStyleSheet(sselbuyv.styleSheet())
 sbalsclay = QHBoxLayout()
 sbalscp = QPushButton()
+sbalscp.setCursor(Qt.CursorShape.PointingHandCursor)
 sbalscp.setIcon(QIcon("textures/card_red.png"))
 sbalscp.setIconSize(QSize(75,75))
+sbalscp.clicked.connect(lambda: on_buy_card())
 sbalsclay.addWidget(sbalscp)
 sbalsclay2 = QVBoxLayout()
 sbalsc1  = QPushButton("1")
@@ -1220,20 +1291,20 @@ sbalscl.setStyleSheet(sselbuyv.styleSheet())
 sbalscllay = QHBoxLayout()
 
 sbalscl1 = create_card_list()
-sbalscl1.addItem("+1 Victory Point")
-sbalscl1.addItem("Knight")
+#sbalscl1.addItem("+1 Victory Point")
+#sbalscl1.addItem("Knight")
 
 sbalscl2 = create_card_list()
-sbalscl2.addItem("Knight")
+#sbalscl2.addItem("Knight")
 sbalscl2.hide()
 
 sbalscl3 = create_card_list()
-sbalscl3.addItem("+1 Victory Point")
-sbalscl3.addItem("+1 Victory Point")
+#sbalscl3.addItem("+1 Victory Point")
+#sbalscl3.addItem("+1 Victory Point")
 sbalscl3.hide()
 
 sbalscl4 = create_card_list()
-sbalscl4.addItem("+1 Victory Point")
+#sbalscl4.addItem("+1 Victory Point")
 sbalscl4.hide()
 
 sbalscl.setLayout(sbalscllay)
@@ -1303,6 +1374,7 @@ sdicedlay = QHBoxLayout()
 sdiced.setLayout(sdicedlay)
 
 sdices = QPushButton("🎲")
+sdices.setCursor(Qt.CursorShape.PointingHandCursor)
 sdices.setFixedSize(100,100)
 sdices.setStyleSheet("font-size: 60px; color: white; font-family: 'Inter'; background-color: #5DB55A; border-radius: 15px;")
 sdices.clicked.connect(use_dice)
@@ -1348,6 +1420,7 @@ spassblay = QHBoxLayout()
 spassb.setLayout(spassblay)
 
 spassbtn = QPushButton("Pass on turn")
+spassbtn.setCursor(Qt.CursorShape.PointingHandCursor)
 spassbtn.setStyleSheet("font-size: 50px; color: white; font-family: 'Inter'; background-color: #5DB55A; border-radius: 15px; font-weight: bold;")
 spassbtn.clicked.connect(pass_on_turn)
 spassblay.addWidget(spassbtn)
@@ -1435,4 +1508,3 @@ main_layout.addWidget(s, alignment=Qt.AlignmentFlag.AlignRight)
 window.setCentralWidget(widget)
 window.show()
 sys.exit(app.exec())
-
